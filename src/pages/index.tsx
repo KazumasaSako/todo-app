@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import { useRouter } from 'next/router';
-import { Login } from 'services/amplify/AmplifyControl';
+import { Login, ChangeTemporaryPassword } from 'services/amplify/AmplifyControl';
 
 import { CssFlex } from 'components/common/atoms/Css/CssFlex';
 import TextField from 'components/common/molecules/TextField';
@@ -25,8 +25,18 @@ const Index = () => {
   const LoginHandle = () => {
     setIsLogin(true);
     Login(Username, Password)
-      .then(() => {
-        Router.push({ pathname: '/todo-list' });
+      .then((userData) => {
+        // 仮パスワード変更の必要なし
+        if (!('challengeName' in userData)) {
+          Router.push({ pathname: '/todo-list' });
+        }
+        // 仮パスワード変更の必要あり
+        else if (userData.challengeName == "NEW_PASSWORD_REQUIRED") {
+          ChangeTemporaryPassword(userData, Password)
+            .then(() => {
+              Router.push({ pathname: '/todo-list' });
+            })
+        }
       })
       .catch(() => {
         alert('ユーザー名またはパスワードが違います。');
