@@ -6,6 +6,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import theme from 'styles/theme';
 import createEmotionCache from 'services/emotionCache/createEmotionCache';
+import 'styles/global.css';
+
+import { Amplify } from 'aws-amplify';
+import AwsExports from "aws-exports";
+Amplify.configure(AwsExports);
 
 const clientSideEmotionCache = createEmotionCache();
 
