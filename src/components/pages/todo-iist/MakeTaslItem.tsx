@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import { MakeTask } from 'apis/TaskApi'
-import { FormatDate, GetDayOfWeek } from 'utility/Utility'
 
 import { CssFlex } from 'components/common/atoms/Css/CssFlex';
 import TextField from 'components/common/molecules/TextField';
@@ -11,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import AddIcon from '@mui/icons-material/Add';
 
 export type Props = {
-  onMakeTask?: (value: string) => void;
+  onMakeTask?: () => void;
 }
 
 const MakeTaslItem = ({
@@ -22,7 +21,7 @@ const MakeTaslItem = ({
     MakeTask(Title)
       .then(() => {
         setTitle('');
-        onMakeTask(Title);
+        onMakeTask();
       })
       .catch(() => {
         alert('タスクの追加に失敗しました。')

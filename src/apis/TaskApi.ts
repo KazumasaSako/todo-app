@@ -23,3 +23,13 @@ export const MakeTask = async (titie: string): Promise<AxiosResponse<TaskItemTyp
     title: titie
   }, { headers: await GetAuthHeader() })
 }
+
+/** タスク削除 */
+export const DestroyTask = async (taskID: string): Promise<AxiosResponse<TaskItemType[]>> => {
+  return axios.delete(`${TASK_API_URL}/task/destroy`, {
+    params: {
+      task_id: taskID
+    },
+    headers: await GetAuthHeader(),
+  })
+}

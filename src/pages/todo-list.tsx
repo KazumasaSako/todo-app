@@ -34,7 +34,11 @@ const TodoList = () => {
           <Typography variant='h5'>タスク</Typography>
           {
             TaskList.map(task =>
-              <TaslItem key={task.task_id} item={task} />
+              <TaslItem
+                key={task.task_id}
+                item={task}
+                onDestroyTask={() => GetTaskList()}
+              />
             )
           }
         </TaskArea>
