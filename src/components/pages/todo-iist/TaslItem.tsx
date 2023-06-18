@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import { TaskItemType, DestroyTask } from 'apis/TaskApi'
+import { TaskItemType, DestroyTask, EditTask } from 'apis/TaskApi'
 
 import { CssFlex } from 'components/common/atoms/Css/CssFlex';
 import Checkbox from 'components/common/molecules/Checkbox';
@@ -12,19 +12,30 @@ import MenuIcon from '@mui/icons-material/Menu';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
+export type ReloadType = 'change' | 'delete' | 'edit';
+
 export type Props = {
   item: TaskItemType;
-  onDestroyTask?: () => void;
+  onReloadTask: (event: ReloadType) => void;
 }
 
 const TaskItem = ({
   item,
-  onDestroyTask = () => { }
+  onReloadTask
 }: Props) => {
+  const ChangeCompletedHandle = () => {
+    EditTask(item.task_id, item.title, !item.completed)
+      .then(() => {
+        onReloadTask('change');
+      })
+      .catch(() => {
+        alert('ステータスの変更に失敗しました。')
+      })
+  }
   const DeleteTaskHandle = () => {
     DestroyTask(item.task_id)
       .then(() => {
-        onDestroyTask();
+        onReloadTask('delete');
       })
       .catch(() => {
         alert('タスクの削除に失敗しました。')
@@ -39,7 +50,7 @@ const TaskItem = ({
         <Checkbox
           iconType='Circle'
           checked={item.completed}
-          onSetChecked={() => { }}
+          onSetChecked={ChangeCompletedHandle}
         />
         <Typography>
           {item.title}

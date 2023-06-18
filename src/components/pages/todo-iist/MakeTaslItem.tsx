@@ -17,7 +17,9 @@ const MakeTaslItem = ({
   onMakeTask = () => { }
 }: Props) => {
   const [Title, setTitle] = React.useState<string>('');
+  const [IsAddTask, setIsAddTask] = React.useState<boolean>(false);
   const AddTaskHandle = () => {
+    setIsAddTask(true);
     MakeTask(Title)
       .then(() => {
         setTitle('');
@@ -26,12 +28,15 @@ const MakeTaslItem = ({
       .catch(() => {
         alert('タスクの追加に失敗しました。')
       })
+      .finally(() => {
+        setIsAddTask(false);
+      })
   }
 
   return (
     <OverAll elevation={2}>
       <IconButton
-        disabled={Title === ''}
+        disabled={Title === '' || IsAddTask}
         color='primary'
         onClick={() => AddTaskHandle()}
       >

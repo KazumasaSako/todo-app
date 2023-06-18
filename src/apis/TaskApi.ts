@@ -33,3 +33,13 @@ export const DestroyTask = async (taskID: string): Promise<AxiosResponse<TaskIte
     headers: await GetAuthHeader(),
   })
 }
+
+/** タスク編集 */
+export const EditTask = async (task_id: string, title: string, completed: boolean): Promise<AxiosResponse<TaskItemType[]>> => {
+  return axios.put(`${TASK_API_URL}/task/edit`, {
+    task_id: task_id,
+    title: title,
+    completed: completed
+  }, { headers: await GetAuthHeader() }
+  )
+}
