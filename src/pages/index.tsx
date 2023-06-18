@@ -2,6 +2,7 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import { useRouter } from 'next/router';
 import { Login, ChangeTemporaryPassword } from 'services/amplify/AmplifyControl';
+import { APP_NAME } from 'utility/Const';
 
 import { CssFlex } from 'components/common/atoms/Css/CssFlex';
 import TextField from 'components/common/molecules/TextField';
@@ -51,7 +52,7 @@ const Index = () => {
       <StylePaper elevation={4}>
         <TitleArea>
           <ListAltIcon fontSize='large' />
-          <Typography variant='h4'>TODO APP</Typography>
+          <Typography variant='h4'>{APP_NAME}</Typography>
         </TitleArea>
 
         <TextField
