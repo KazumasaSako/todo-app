@@ -16,3 +16,10 @@ export const ListTask = async (): Promise<AxiosResponse<TaskItemType[]>> => {
     headers: await GetAuthHeader()
   })
 }
+
+/** タスク作成 */
+export const MakeTask = async (titie: string): Promise<AxiosResponse<TaskItemType[]>> => {
+  return axios.post(`${TASK_API_URL}/task/make`, {
+    title: titie
+  }, { headers: await GetAuthHeader() })
+}

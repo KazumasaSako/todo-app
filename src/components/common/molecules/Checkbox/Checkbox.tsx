@@ -7,13 +7,19 @@ import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 export type IconType = 'Default' | 'Circle';
 
 export type Props = {
+  className?: string;
+  /** check状態 */
   checked: boolean;
+  /** Iconの種類 */
   iconType?: IconType;
+  /** checked変更 */
   onSetChecked: (value: boolean) => void;
-  othersProps?: Omit<CheckboxProps, 'checked' | 'onchange'>
+  /** その他MuiのProps */
+  othersProps?: Omit<CheckboxProps, 'className' | 'checked' | 'onchange'>
 }
 
 const Checkbox = ({
+  className,
   checked,
   iconType = 'Default',
   onSetChecked,
@@ -29,6 +35,7 @@ const Checkbox = ({
 
   return (
     <MuiCheckbox
+      className={className}
       checked={checked}
       onChange={e => onSetChecked(e.target.checked)}
       icon={UseIcon}

@@ -10,6 +10,7 @@ import Visibility from '@mui/icons-material/Visibility';
 export type ViewType = 'text' | 'password';
 
 export type Props = {
+  className?: string;
   /** Value */
   value: string;
   /** TextField Type */
@@ -19,10 +20,11 @@ export type Props = {
   /** Value変更 */
   onSetValue: (value: string) => void;
   /** その他MuiのProps */
-  othersProps?: Omit<TextFieldProps, 'value' | 'onChange' | 'InputProps' | 'type'>
+  othersProps?: Omit<TextFieldProps, 'className' | 'value' | 'onChange' | 'InputProps' | 'type'>
 }
 
 const TextField = ({
+  className,
   value,
   viewType = 'text',
   startAdornment,
@@ -51,6 +53,7 @@ const TextField = ({
 
   return (
     <StyleTextField
+      className={className}
       value={value}
       onChange={e => onSetValue(e.target.value)}
       type={Type}
