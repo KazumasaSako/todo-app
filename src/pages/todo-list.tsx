@@ -10,7 +10,7 @@ const TodoList = () => {
   const [TaskList, setTaskList] = React.useState<TaskItemType[]>([]);
   React.useEffect(() => {
     ListTask().then(list => {
-      const sortList = list.data.sort((a: TaskItemType, b: TaskItemType) => a.deadline < b.deadline ? -1 : 1);
+      const sortList = list.data.sort((a: TaskItemType, b: TaskItemType) => a.time_stamp < b.time_stamp ? -1 : 1);
       const completeList = sortList.filter(item => item.completed);
       const incompleteList = sortList.filter(item => !item.completed);
       setTaskList(

@@ -17,13 +17,6 @@ export type Props = {
 const TaskItem = ({
   item
 }: Props) => {
-  /** item.deadline : Date */
-  const DeadlineDate = React.useMemo((): Date => new Date(item.deadline), [item])
-  /** item.deadline : 表示用 */
-  const DeadlineView = React.useMemo((): string => FormatDate(DeadlineDate, `yyyy年MM月dd日(${GetDayOfWeek(DeadlineDate)}) HH時mm分`), [DeadlineDate])
-  /** item.deadline : 表示用 : Color */
-  const DeadlineViewColor = React.useMemo((): string => new Date() < DeadlineDate ? 'gray' : 'red', [DeadlineDate])
-
   return (
     <OverAll elevation={2}>
       <Checkbox
@@ -35,12 +28,6 @@ const TaskItem = ({
         <Typography>
           {item.title}
         </Typography>
-        <DeadlineArea>
-          <CalendarMonthIcon fontSize='small' color='disabled' />
-          <Typography color={DeadlineViewColor}>
-            {DeadlineView}
-          </Typography>
-        </DeadlineArea>
       </ContentArea>
     </OverAll>
   )
@@ -53,8 +40,4 @@ const OverAll = styled(Paper)`
 `
 const ContentArea = styled('div')`
   ${CssFlex({ gap: 4, flow: 'column', alignItems: 'flex-start', justifyContent: 'flex-start' })}
-`
-const DeadlineArea = styled('div')`
-  padding-left: 8px;
-  ${CssFlex({ gap: 4, flow: 'row', alignItems: 'flex-start', justifyContent: 'flex-start' })}
 `

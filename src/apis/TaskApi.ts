@@ -7,7 +7,6 @@ export type TaskItemType = {
   task_id: string;
   title: string;
   completed: boolean;
-  deadline: string;
   time_stamp: string;
 }
 
