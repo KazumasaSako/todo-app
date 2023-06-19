@@ -1,27 +1,30 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import { styled, css } from '@mui/material/styles';
 import { TaskItemType, DestroyTask, EditTask } from 'apis/TaskApi'
 
-import { CssFlex } from 'components/common/atoms/Css/CssFlex';
+import CssFlex from 'components/common/atoms/Css/CssFlex';
 import Checkbox from 'components/common/molecules/Checkbox';
 import Menu from 'components/common/molecules/Menu';
+import { ReloadType } from 'components/pages/todo-iist/Type';
 
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import MenuIcon from '@mui/icons-material/Menu';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-
-export type ReloadType = 'change' | 'delete' | 'edit';
 
 export type Props = {
+  /** 表示するアイテム */
   item: TaskItemType;
+  /** Taskの変更を親に伝えるイベント */
   onReloadTask: (event: ReloadType) => void;
+  /** エラー発生イベント */
+  onError: (message: string) => void;
 }
 
 const TaskItem = ({
   item,
-  onReloadTask
+  onReloadTask,
+  onError
 }: Props) => {
   const ChangeCompletedHandle = () => {
     EditTask(item.task_id, item.title, !item.completed)
@@ -29,7 +32,7 @@ const TaskItem = ({
         onReloadTask('change');
       })
       .catch(() => {
-        alert('ステータスの変更に失敗しました。')
+        onError('ステータスの変更に失敗しました。');
       })
   }
   const DeleteTaskHandle = () => {
@@ -38,10 +41,8 @@ const TaskItem = ({
         onReloadTask('delete');
       })
       .catch(() => {
-        alert('タスクの削除に失敗しました。')
+        onError('タスクの削除に失敗しました。');
       })
-  }
-  const EditTaskHandle = () => {
   }
 
   return (
@@ -52,26 +53,18 @@ const TaskItem = ({
           checked={item.completed}
           onSetChecked={ChangeCompletedHandle}
         />
-        <Typography>
+        <StyleTitle checked={item.completed}>
           {item.title}
-        </Typography>
+        </StyleTitle>
       </ContentArea>
-
 
       <Menu
         buttonIcon={<MenuIcon />}
-        menuItems={[
-          {
-            text: '編集',
-            icon: <EditIcon />,
-            onClick: EditTaskHandle
-          },
-          {
-            text: '削除',
-            icon: <DeleteIcon />,
-            onClick: DeleteTaskHandle
-          }
-        ]}
+        menuItems={[{
+          text: '削除',
+          icon: <DeleteIcon />,
+          onClick: DeleteTaskHandle
+        }]}
       />
     </OverAll>
   )
@@ -86,6 +79,10 @@ const OverAll = styled(Paper)`
 const ContentArea = styled('div')`
   ${CssFlex({ gap: 8, flow: 'row', alignItems: 'center', justifyContent: 'flex-start' })}
 `
-const StyleMenuIcon = styled(MenuIcon)`
-  margin-right: 15px;
+const StyleTitle = styled(Typography)`
+  ${(props: { checked: boolean }) => css`
+    ${props.checked && `
+      text-decoration: line-through;
+    `}
+  `}
 `

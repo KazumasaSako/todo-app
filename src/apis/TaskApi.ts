@@ -12,21 +12,21 @@ export type TaskItemType = {
 
 /** タスク一覧取得 */
 export const ListTask = async (): Promise<AxiosResponse<TaskItemType[]>> => {
-  return axios.get(`${TASK_API_URL}/task/list`, {
+  return axios.get(`${TASK_API_URL}/task`, {
     headers: await GetAuthHeader()
   })
 }
 
 /** タスク作成 */
 export const MakeTask = async (titie: string): Promise<AxiosResponse<TaskItemType[]>> => {
-  return axios.post(`${TASK_API_URL}/task/make`, {
+  return axios.post(`${TASK_API_URL}/task`, {
     title: titie
   }, { headers: await GetAuthHeader() })
 }
 
 /** タスク削除 */
 export const DestroyTask = async (taskID: string): Promise<AxiosResponse<TaskItemType[]>> => {
-  return axios.delete(`${TASK_API_URL}/task/destroy`, {
+  return axios.delete(`${TASK_API_URL}/task`, {
     params: {
       task_id: taskID
     },
@@ -36,7 +36,7 @@ export const DestroyTask = async (taskID: string): Promise<AxiosResponse<TaskIte
 
 /** タスク編集 */
 export const EditTask = async (task_id: string, title: string, completed: boolean): Promise<AxiosResponse<TaskItemType[]>> => {
-  return axios.put(`${TASK_API_URL}/task/edit`, {
+  return axios.put(`${TASK_API_URL}/task`, {
     task_id: task_id,
     title: title,
     completed: completed

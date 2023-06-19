@@ -2,13 +2,15 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import { ListTask, TaskItemType } from 'apis/TaskApi';
 
-import { CssFlex } from 'components/common/atoms/Css/CssFlex';
+import CssFlex from 'components/common/atoms/Css/CssFlex';
+import CssScrollBar from 'components/common/atoms/Css/CssScrollBar';
+import Toast, { MessageItem } from 'components/common/molecules/Toast';
 import Layout from 'components/templates/Layout';
-import TaslItem, { ReloadType } from 'components/pages/todo-iist/TaslItem';
+import TaslItem from 'components/pages/todo-iist/TaslItem';
 import AddTaslItem from 'components/pages/todo-iist/MakeTaslItem';
+import { ReloadType } from 'components/pages/todo-iist/Type';
 
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 
 const TodoList = () => {
   /** タスク一覧 */
@@ -20,6 +22,8 @@ const TodoList = () => {
     const incompleteList = sortList.filter(item => !item.completed);
     return incompleteList.concat(completeList)
   }, [TaskList])
+  /** Torst : Message */
+  const [ToastMessageList, setToastMessageList] = React.useState<MessageItem[]>([]);
 
   /** TaskListの取得 */
   const GetTaskList = () => {
@@ -31,25 +35,50 @@ const TodoList = () => {
     GetTaskList();
   }, [])
 
-  const ReloadHandle = (event: ReloadType, item: TaskItemType) => {
+
+  const ReloadHandle = (event: ReloadType, item?: TaskItemType) => {
     // GetTaskList完了まで待つと、ラグが発生する為、先にデータを変更しておく。
-    switch (event) {
-      case 'change':
-        setTaskList(
-          TaskList.map(task =>
-            task.task_id === item.task_id ? { ...item, ...{ completed: !item.completed } } : task
+    // addに関しては、ラグは問題ないため、GetTaskListで取得する。
+    if (item) {
+      switch (event) {
+        case 'change':
+          setTaskList(
+            TaskList.map(task =>
+              task.task_id === item.task_id ? { ...item, ...{ completed: !item.completed } } : task
+            )
           )
-        )
-        break;
-      case 'delete':
-        setTaskList(
-          TaskList.filter(task => task.task_id !== item.task_id)
-        )
-        break;
-      case 'edit':
+          break;
+        case 'delete':
+          setTaskList(
+            TaskList.filter(task => task.task_id !== item.task_id)
+          )
+          break;
+      }
     }
+
+    // Toastの表示
+    if (event === 'add' || event === 'delete')
+      setToastMessageList([
+        {
+          severity: 'info',
+          message: event === 'add' ? 'タスクが追加されました。' :
+            event === 'delete' ? 'タスクが削除されました。' :
+              ''
+        }
+      ])
+
+    // Taskの再取得
     GetTaskList();
   };
+
+  const ErrorHandle = (message: string) => {
+    setToastMessageList([
+      {
+        severity: 'error',
+        message: message
+      }
+    ])
+  }
 
   return (
     <Layout>
@@ -62,16 +91,30 @@ const TodoList = () => {
                 key={task.task_id}
                 item={task}
                 onReloadTask={e => ReloadHandle(e, task)}
+                onError={message => ErrorHandle(message)}
               />
             )
           }
         </TaskArea>
         <AddTaskArea>
           <AddTaslItem
-            onMakeTask={() => GetTaskList()}
+            onReloadTask={e => ReloadHandle(e)}
+            onError={message => ErrorHandle(message)}
           />
         </AddTaskArea>
       </OverAll>
+      <Toast
+        messageList={ToastMessageList}
+        onSetMessageList={list => setToastMessageList(list)}
+        variant='standard'
+        othersProps={{
+          autoHideDuration: 1000,
+          anchorOrigin: {
+            horizontal: 'right',
+            vertical: 'top'
+          }
+        }}
+      />
     </Layout>
   )
 }
@@ -83,9 +126,9 @@ const OverAll = styled('div')`
   ${CssFlex({ gap: 4, flow: 'column', justifyContent: 'space-between' })}
 `
 const TaskArea = styled('div')`
-  overflow: auto;
   height: 100%;
-  ${CssFlex({ gap: 2, flow: 'column' })}
+  ${CssFlex({ gap: 6, flow: 'column' })}
+  ${CssScrollBar({color:'#a9a9a9', border_width:'2px'})}
 `
 const AddTaskArea = styled('div')`
   margin-top: 32px;

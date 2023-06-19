@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Login, ChangeTemporaryPassword } from 'services/amplify/AmplifyControl';
 import { APP_NAME } from 'utility/Const';
 
-import { CssFlex } from 'components/common/atoms/Css/CssFlex';
+import CssFlex from 'components/common/atoms/Css/CssFlex';
 import TextField from 'components/common/molecules/TextField';
 
 import Paper from '@mui/material/Paper';

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { APP_NAME } from 'utility/Const';
 import { Logout } from 'services/amplify/AmplifyControl';
 
-import { CssFlex } from 'components/common/atoms/Css/CssFlex';
+import CssFlex from 'components/common/atoms/Css/CssFlex';
 
 import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
