@@ -27,10 +27,10 @@ const Checkbox = ({
 }: Props) => {
   const UseIcon = React.useMemo(() =>
     iconType === 'Circle' && <CircleOutlinedIcon />
-    , []);
+    , [iconType]);
   const UseCheckedIcon = React.useMemo(() =>
     iconType === 'Circle' && <CheckCircleIcon />
-    , []);
+    , [iconType]);
 
 
   return (

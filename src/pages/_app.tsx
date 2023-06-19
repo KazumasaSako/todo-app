@@ -40,7 +40,7 @@ export default function MyApp(props: MyAppProps) {
           Router.push({ pathname: '/' }) :
           setIsSessionConfirmation(true);
       })
-  }, [Router.pathname])
+  }, [Router])
 
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (

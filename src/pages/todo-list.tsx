@@ -1,23 +1,26 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import { ListTask, TaskItemType } from 'apis/TaskApi';
+import { GetUserInfo } from 'services/amplify/AmplifyControl';
 
 import CssFlex from 'components/common/atoms/Css/CssFlex';
 import CssScrollBar from 'components/common/atoms/Css/CssScrollBar';
 import Toast, { MessageItem } from 'components/common/molecules/Toast';
+import LoadingView from 'components/common/molecules/LoadingView';
 import Layout from 'components/templates/Layout';
 import TaslItem from 'components/pages/todo-iist/TaslItem';
 import AddTaslItem from 'components/pages/todo-iist/MakeTaslItem';
 import { ReloadType } from 'components/pages/todo-iist/Type';
 
 import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
 
 const TodoList = () => {
   /** タスク一覧 */
-  const [TaskList, setTaskList] = React.useState<TaskItemType[]>([]);
+  const [TaskList, setTaskList] = React.useState<TaskItemType[] | undefined>(undefined);
   /** TaskListをSortしたList */
   const SortTaskList = React.useMemo((): TaskItemType[] => {
+    if (TaskList === undefined)
+      return [];
     const sortList = TaskList.sort((a: TaskItemType, b: TaskItemType) => a.time_stamp < b.time_stamp ? -1 : 1);
     const completeList = sortList.filter(item => item.completed);
     const incompleteList = sortList.filter(item => !item.completed);
@@ -44,14 +47,14 @@ const TodoList = () => {
       switch (event) {
         case 'change':
           setTaskList(
-            TaskList.map(task =>
+            SortTaskList.map(task =>
               task.task_id === item.task_id ? { ...item, ...{ completed: !item.completed } } : task
             )
           )
           break;
         case 'delete':
           setTaskList(
-            TaskList.filter(task => task.task_id !== item.task_id)
+            SortTaskList.filter(task => task.task_id !== item.task_id)
           )
           break;
       }
@@ -97,6 +100,10 @@ const TodoList = () => {
                 />
               )
             }
+            <LoadingView
+              view='ParentElement'
+              isLoading={TaskList === undefined}
+            />
           </TaskArea>
           <AddTaskArea>
             <AddTaslItem
@@ -138,6 +145,7 @@ const ContentArea = styled('div')`
 `
 const TaskArea = styled('div')`
   height: 100%;
+  position: relative;
   ${CssFlex({ gap: 6, flow: 'column' })}
   ${CssScrollBar({ color: '#a9a9a9', border_width: '2px' })}
 `
