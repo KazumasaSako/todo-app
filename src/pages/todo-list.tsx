@@ -11,6 +11,7 @@ import AddTaslItem from 'components/pages/todo-iist/MakeTaslItem';
 import { ReloadType } from 'components/pages/todo-iist/Type';
 
 import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const TodoList = () => {
   /** タスク一覧 */
@@ -83,25 +84,27 @@ const TodoList = () => {
   return (
     <Layout>
       <OverAll>
-        <Typography variant='h5'>タスク</Typography>
-        <TaskArea>
-          {
-            SortTaskList.map(task =>
-              <TaslItem
-                key={task.task_id}
-                item={task}
-                onReloadTask={e => ReloadHandle(e, task)}
-                onError={message => ErrorHandle(message)}
-              />
-            )
-          }
-        </TaskArea>
-        <AddTaskArea>
-          <AddTaslItem
-            onReloadTask={e => ReloadHandle(e)}
-            onError={message => ErrorHandle(message)}
-          />
-        </AddTaskArea>
+        <ContentArea>
+          <Typography variant='h5'>タスク</Typography>
+          <TaskArea>
+            {
+              SortTaskList.map(task =>
+                <TaslItem
+                  key={task.task_id}
+                  item={task}
+                  onReloadTask={e => ReloadHandle(e, task)}
+                  onError={message => ErrorHandle(message)}
+                />
+              )
+            }
+          </TaskArea>
+          <AddTaskArea>
+            <AddTaslItem
+              onReloadTask={e => ReloadHandle(e)}
+              onError={message => ErrorHandle(message)}
+            />
+          </AddTaskArea>
+        </ContentArea>
       </OverAll>
       <Toast
         messageList={ToastMessageList}
@@ -123,12 +126,20 @@ export default TodoList;
 const OverAll = styled('div')`
   padding:24px;
   height: 100%;
+  ${CssFlex({ gap: 0, flow: 'row', alignItems: 'center', justifyContent: 'center' })}
+`
+const ContentArea = styled('div')`
+  height: 100%;
+  min-width: 700px;
   ${CssFlex({ gap: 4, flow: 'column', justifyContent: 'space-between' })}
+  @media only screen and (max-width: 767px){
+    min-width: 100%;
+  }
 `
 const TaskArea = styled('div')`
   height: 100%;
   ${CssFlex({ gap: 6, flow: 'column' })}
-  ${CssScrollBar({color:'#a9a9a9', border_width:'2px'})}
+  ${CssScrollBar({ color: '#a9a9a9', border_width: '2px' })}
 `
 const AddTaskArea = styled('div')`
   margin-top: 32px;

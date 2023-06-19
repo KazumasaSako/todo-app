@@ -80,6 +80,7 @@ const ContentArea = styled('div')`
   ${CssFlex({ gap: 8, flow: 'row', alignItems: 'center', justifyContent: 'flex-start' })}
 `
 const StyleTitle = styled(Typography)`
+  word-break: break-all;
   ${(props: { checked: boolean }) => css`
     ${props.checked && `
       text-decoration: line-through;
