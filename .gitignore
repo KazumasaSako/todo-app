@@ -38,3 +38,6 @@ next-env.d.ts
 /cypress/downloads
 /cypress/videos
 /cypress/screenshots
+
+# env
+.env

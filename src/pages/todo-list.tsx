@@ -89,7 +89,7 @@ const TodoList = () => {
       <OverAll>
         <ContentArea>
           <Typography variant='h5'>タスク</Typography>
-          <TaskArea>
+          <TaskArea data-cy='TaskItemParent'>
             {
               SortTaskList.map(task =>
                 <TaslItem

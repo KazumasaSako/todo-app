@@ -8,30 +8,28 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+
+declare namespace Cypress {
+  interface Chainable {
+    /** ログイン */
+    login(id: string, password: string): void;
+    /** ログアウト */
+    logout(): void;
+  }
+}
+
+Cypress.Commands.add('login', (id: string, password: string) => {
+  ChangeInput('[placeholder="ユーザー名を入力"]', id);
+  ChangeInput('[placeholder="パスワードを入力"]', password);
+  cy.get('button').contains('ログイン').click();
+})
+Cypress.Commands.add('logout', () => {
+  cy.get('button').contains('Logout').click();
+})
+
+/** InputElementのテキスト変更 */
+const ChangeInput = (selector: string, text: string) => {
+  cy.get(selector).clear();
+  if (text !== '')
+    cy.get(selector).type(text);
+}

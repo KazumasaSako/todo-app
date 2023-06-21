@@ -44,6 +44,7 @@ const MakeTaslItem = ({
         disabled={Title === '' || IsAddTask}
         color='primary'
         onClick={() => AddTaskHandle()}
+        data-cy='AddTaskButton'
       >
         <AddIcon />
       </IconButton>

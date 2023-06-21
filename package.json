@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "npx serve@latest out",
     "lint": "next lint",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
@@ -22,6 +22,7 @@
     "@mui/material": "latest",
     "aws-amplify": "^5.2.7",
     "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
