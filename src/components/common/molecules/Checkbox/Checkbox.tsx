@@ -15,7 +15,7 @@ export type Props = {
   /** checked変更 */
   onSetChecked: (value: boolean) => void;
   /** その他MuiのProps */
-  othersProps?: Omit<CheckboxProps, 'className' | 'checked' | 'onchange'>
+  othersProps?: Omit<CheckboxProps, 'className' | 'checked' | 'onchange'>;
 }
 
 const Checkbox = ({
@@ -26,10 +26,10 @@ const Checkbox = ({
   othersProps
 }: Props) => {
   const UseIcon = React.useMemo(() =>
-    iconType === 'Circle' && <CircleOutlinedIcon />
+    iconType === 'Circle' ? <CircleOutlinedIcon /> : undefined
     , [iconType]);
   const UseCheckedIcon = React.useMemo(() =>
-    iconType === 'Circle' && <CheckCircleIcon />
+    iconType === 'Circle' ? <CheckCircleIcon /> : undefined
     , [iconType]);
 
 
