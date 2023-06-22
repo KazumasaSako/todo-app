@@ -5,11 +5,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 export type ViewType = 'WholePage' | 'ParentElement';
 export type Props = {
+  className?: string;
   isLoading: boolean;
   view?: ViewType;
 }
 
 const LoadingView = ({
+  className,
   isLoading,
   view = 'WholePage'
 }: Props) => {
@@ -17,7 +19,7 @@ const LoadingView = ({
     <>
       {
         isLoading && (
-          <StyleOverall view={view}>
+          <StyleOverall view={view} className={className}>
             <CircularProgress size={34} thickness={5} />
           </StyleOverall>
         )

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, act, cleanup, logRoles } from '@testing-library/react';
-import { styled } from '@mui/material/styles';
 
 import Checkbox, { Props } from 'components/common/molecules/Checkbox'
 
@@ -9,10 +8,7 @@ import Checkbox, { Props } from 'components/common/molecules/Checkbox'
  * Support
  ***************************************************** */
 /** Jest用Render */
-const TestRender = ({
-  iconType,
-  othersProps
-}: Omit<Props, 'className' | 'checked' | 'onSetChecked'>) => {
+const TestRender = (props: Omit<Props, 'className' | 'checked' | 'onSetChecked'>) => {
   const [CheckValue, setCheckValue] = React.useState<boolean>(false);
   return (
     <div data-testid="TestRender">
@@ -20,8 +16,7 @@ const TestRender = ({
         className='CheckboxTestClass'
         checked={CheckValue}
         onSetChecked={value => setCheckValue(value)}
-        iconType={iconType}
-        othersProps={othersProps}
+        {...props}
       />
     </div>
   )
@@ -56,13 +51,15 @@ describe('common/molecules/Checkbox', () => {
     expect(screen.queryByTestId('CircleOutlinedIcon')).toBeInTheDocument();
   });
   test('othersProps', async () => {
-    render(<TestRender
-      othersProps={{
-        sx: {
-          color: 'red'
-        }
-      }}
-    />);
+    render(
+      <TestRender
+        othersProps={{
+          sx: {
+            color: 'red'
+          }
+        }}
+      />
+    );
     expect(screen.getByTestId('TestRender').firstChild).toHaveStyle({
       color: 'red'
     });

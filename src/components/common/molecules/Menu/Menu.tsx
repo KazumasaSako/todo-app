@@ -20,9 +20,9 @@ export type Props = {
   /** Menuに表示するアイテム */
   menuItems: MenuItemType[];
   /** IconButton:MuiのProps */
-  othersButtonProps?: IconButtonProps
+  othersButtonProps?: Omit<IconButtonProps, 'onClick'>;
   /** Menu:MuiのProps */
-  othersMenuProps?: MenuProps
+  othersMenuProps?: Omit<MenuProps, 'anchorEl' | 'open' | 'onClose'>;
 }
 
 const Menu = ({
