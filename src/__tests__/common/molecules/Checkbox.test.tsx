@@ -11,24 +11,22 @@ import Checkbox, { Props } from 'components/common/molecules/Checkbox'
 const TestRender = (props: Omit<Props, 'className' | 'checked' | 'onSetChecked'>) => {
   const [CheckValue, setCheckValue] = React.useState<boolean>(false);
   return (
-    <div data-testid="TestRender">
-      <Checkbox
-        className='CheckboxTestClass'
-        checked={CheckValue}
-        onSetChecked={value => setCheckValue(value)}
-        {...props}
-      />
-    </div>
+    <Checkbox
+      className='TestClass'
+      checked={CheckValue}
+      onSetChecked={value => setCheckValue(value)}
+      {...props}
+    />
   )
 };
 
 /** *****************************************************
  * Main
  ***************************************************** */
-describe('common/molecules/Checkbox', () => {
+describe('props', () => {
   test('className', async () => {
-    render(<TestRender />);
-    expect(screen.getByTestId('TestRender').firstChild).toHaveClass('CheckboxTestClass');
+    const { container } = render(<TestRender />);
+    expect(container.firstChild).toHaveClass('TestClass');
   });
   test('checked, onSetChecked', async () => {
     render(<TestRender />);
@@ -51,7 +49,7 @@ describe('common/molecules/Checkbox', () => {
     expect(screen.queryByTestId('CircleOutlinedIcon')).toBeInTheDocument();
   });
   test('othersProps', async () => {
-    render(
+    const { container } = render(
       <TestRender
         othersProps={{
           sx: {
@@ -60,7 +58,7 @@ describe('common/molecules/Checkbox', () => {
         }}
       />
     );
-    expect(screen.getByTestId('TestRender').firstChild).toHaveStyle({
+    expect(container.firstChild).toHaveStyle({
       color: 'red'
     });
   });

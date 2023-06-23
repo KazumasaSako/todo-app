@@ -10,7 +10,7 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "jest": "jest",
-    "jest:report":"jest --coverage"
+    "jest:report": "jest --coverage"
   },
   "dependencies": {
     "@emotion/cache": "latest",
@@ -31,6 +31,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",

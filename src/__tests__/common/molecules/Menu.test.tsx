@@ -14,12 +14,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 /** Jest用Render */
 const TestRender = (props: Omit<Props, 'className'>) => {
   return (
-    <div data-testid="TestRender">
-      <Menu
-        className='CheckboxTestClass'
-        {...props}
-      />
-    </div>
+    <Menu
+      className='TestClass'
+      {...props}
+    />
   )
 };
 
@@ -31,10 +29,10 @@ const MenuItem: MenuItemType[] = [
 /** *****************************************************
  * Main
  ***************************************************** */
-describe('common/molecules/Checkbox', () => {
+describe('props', () => {
   test('className', async () => {
-    render(<TestRender buttonIcon={<MenuIcon />} menuItems={MenuItem} />);
-    expect(screen.getByTestId('TestRender').firstChild).toHaveClass('CheckboxTestClass');
+    const { container } = render(<TestRender buttonIcon={<MenuIcon />} menuItems={MenuItem} />);
+    expect(container.firstChild).toHaveClass('TestClass');
   });
   test('buttonIcon', async () => {
     render(<TestRender buttonIcon={<MenuIcon />} menuItems={MenuItem} />);
@@ -114,7 +112,9 @@ describe('common/molecules/Checkbox', () => {
     });
   });
   test('othersButtonProps', async () => {
-    render(
+    const {
+      container
+    } = render(
       <TestRender
         buttonIcon={<MenuIcon />}
         menuItems={MenuItem}
@@ -127,7 +127,7 @@ describe('common/molecules/Checkbox', () => {
     act(() => {
       screen.getByRole('button').click();
     });
-    expect(screen.getByTestId('TestRender').parentElement!.parentElement!.lastChild).toHaveStyle({
+    expect(screen.getByRole('presentation')).toHaveStyle({
       color: 'red'
     });
   });

@@ -10,22 +10,20 @@ import LoadingView, { Props } from 'components/common/molecules/LoadingView'
 /** Jest用Render */
 const TestRender = (props: Omit<Props, 'className'>) => {
   return (
-    <div data-testid="TestRender">
-      <LoadingView
-        className='CheckboxTestClass'
-        {...props}
-      />
-    </div>
+    <LoadingView
+      className='TestClass'
+      {...props}
+    />
   )
 };
 
 /** *****************************************************
  * Main
  ***************************************************** */
-describe('common/molecules/Checkbox', () => {
+describe('props', () => {
   test('className', async () => {
-    render(<TestRender isLoading={true} />);
-    expect(screen.getByTestId('TestRender').firstChild).toHaveClass('CheckboxTestClass');
+    const { container } = render(<TestRender isLoading={true} />);
+    expect(container.firstChild).toHaveClass('TestClass');
   });
   test('isLoading', async () => {
     render(<TestRender isLoading={true} />);
