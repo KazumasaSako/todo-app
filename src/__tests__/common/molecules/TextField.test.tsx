@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, act, cleanup, logRoles } from '@testing-library/react';
-import userEvent, { keyboardKey } from "@testing-library/user-event";
+import userEvent from "@testing-library/user-event";
 
 import TextField, { Props, ViewType } from 'components/common/molecules/TextField';
 import AddIcon from '@mui/icons-material/Add';
@@ -85,8 +85,7 @@ describe('others', () => {
     expect(screen.queryByTestId('VisibilityIcon')).toBeInTheDocument();
     expect(screen.queryByTestId('VisibilityOffIcon')).not.toBeInTheDocument();
 
-    screen.debug(screen.getByTestId('VisibilityIcon'));
-    act(()=>{
+    act(() => {
       screen.getByTestId('VisibilityIcon').parentElement!.click();
     })
     expect(screen.getByPlaceholderText("TextField")).not.toHaveAttribute('type', 'password');
