@@ -8,9 +8,11 @@ export default defineConfig({
     },
   },
   env: {
-    baseUrl: process.env.BASE_URL,
-    todoPageUrl: process.env.BASE_URL + 'todo-list/',
+    baseUrl: 'http://localhost:3000/',
+    todoPageUrl: 'http://localhost:3000/todo-list/',
     id: process.env.CYPRESS_USER_ID,
     password: process.env.CYPRESS_USER_PASSWORD,
+    anotherId: process.env.ANOTHER_CYPRESS_USER_ID,
+    anotherPassword: process.env.ANOTHER_CYPRESS_USER_PASSWORD,
   }
 });

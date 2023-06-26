@@ -6,3 +6,7 @@ export const TODO_PAGE_URL = Cypress.env("todoPageUrl");
 export const ID = Cypress.env("id");
 /** ログインパスワード */
 export const PASSWORD = Cypress.env("password");
+/** ログインID */
+export const ANOTHER_ID = Cypress.env("anotherId");
+/** ログインパスワード */
+export const ANOTHER_PASSWORD = Cypress.env("anotherPassword");

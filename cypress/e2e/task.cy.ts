@@ -2,7 +2,9 @@ import {
   ID,
   PASSWORD,
   BASE_URL,
-  TODO_PAGE_URL
+  TODO_PAGE_URL,
+  ANOTHER_ID,
+  ANOTHER_PASSWORD
 } from '../const';
 
 describe('タスク管理', () => {
@@ -94,5 +96,44 @@ describe('タスク管理', () => {
 
     // タスクが存在しないことの確認
     GetTaskItem().should('not.exist');
+  })
+  it('ログインしたユーザーのタスク一覧が表示される事の確認', () => {
+    const TEST_TASK_TITLE = `TestTask${NEW_TASK_TITLE}`
+    // テスト用タスクの追加
+    cy.get('[placeholder="タスクの追加"]').type(TEST_TASK_TITLE);
+    cy.get(DATA_KEY_ADD_TASK_BUTTON).click();
+    // 追加されたことの確認
+    cy.get(DATA_KEY_TASK_AREA)
+      .contains(TEST_TASK_TITLE)
+      .should('exist');
+
+    // 別のユーザーに切り替え
+    cy.logout();
+    cy.login(ANOTHER_ID, ANOTHER_PASSWORD);
+    cy.get(DATA_KEY_TASK_AREA).children().get(`[role='progressbar']`, { timeout: 30000 }).should('not.exist');
+
+    // 先ほど追加したタスクが存在しないことの確認
+    cy.get(DATA_KEY_TASK_AREA)
+      .contains(TEST_TASK_TITLE)
+      .should('not.exist');
+
+    // 後処理 : ユーザーを切り替え追加したタスクの削除
+    cy.logout();
+    cy.login(ID, PASSWORD);
+    cy.get(DATA_KEY_TASK_AREA).children().get(`[role='progressbar']`, { timeout: 30000 }).should('not.exist');
+    cy.get(DATA_KEY_TASK_AREA)
+      .contains(TEST_TASK_TITLE)
+      .parent()
+      .parent()
+      .children()
+      .find('button')
+      .click()
+    cy.contains('削除')
+      .click();
+
+    // 後処理 : タスクが削除されたことの確認
+    cy.get(DATA_KEY_TASK_AREA)
+      .contains(TEST_TASK_TITLE)
+      .should('not.exist');
   })
 })

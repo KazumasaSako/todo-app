@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen, act, cleanup, logRoles } from '@testing-library/react';
+import { render, screen, act, cleanup, logRoles, waitFor } from '@testing-library/react';
 
 import Menu, { Props, MenuItemType } from 'components/common/molecules/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -112,9 +112,7 @@ describe('props', () => {
     });
   });
   test('othersButtonProps', async () => {
-    const {
-      container
-    } = render(
+    render(
       <TestRender
         buttonIcon={<MenuIcon />}
         menuItems={MenuItem}

@@ -36,8 +36,6 @@ const Toast = ({
     CloseHandle();
   }
   const CloseHandle = () => {
-    if (messageList.length <= 0)
-      return;
     setIsOpen(false);
     const list = Array.from(messageList);
     list.shift();
@@ -45,13 +43,12 @@ const Toast = ({
   }
 
   React.useEffect(() => {
-    const Open = () => {
+    if (messageList.length <= 0)
+      return;
+    setTimeout(() => {
       setMessage(messageList[0])
       setIsOpen(true);
-    };
-    if (0 < messageList.length) {
-      setTimeout(Open, 100)
-    }
+    }, 100)
   }, [messageList])
 
   return (
